@@ -26,6 +26,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const MAX_IMAGES = 6; // 最大表示数を設定
 
+    // ダブルタップによるズームを防止
+    document.addEventListener('touchstart', function(event) {
+        if (event.touches.length > 1) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(event) {
+        const now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, { passive: false });
+
+    // ピンチズームを防止
+    document.addEventListener('gesturestart', function(event) {
+        event.preventDefault();
+    });
+
     // 風船の大きさを更新する関数
     function updateBalloonSize() {
         size = 100 + (airAmount * 2);

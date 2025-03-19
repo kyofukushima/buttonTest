@@ -6,6 +6,13 @@ body {
     min-height: 100vh;
     background-color: #1a1a1a;
     font-family: Arial, sans-serif;
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .container {
@@ -218,7 +225,7 @@ button:hover {
 }
 
 /* 既存のスタイルを更新 */
-.maeno-image {
+.maeno-image, .maeno-boss {
     position: fixed;
     width: 150px;
     height: auto;
@@ -228,6 +235,10 @@ button:hover {
     object-fit: cover;
     transform-origin: center center;
     cursor: pointer;
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 #maeno-container {
