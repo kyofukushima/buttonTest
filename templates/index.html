@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAENO GAME</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- カウンター表示を追加 -->
+    <div id="counter" class="counter hidden">
+        <span id="count">0</span> MAENO
+    </div>
+
+    <!-- カウンターの下にHPバーを追加 -->
+    <div id="bossHP" class="boss-hp hidden">
+        <div class="hp-label">BOSS HP</div>
+        <div class="hp-bar">
+            <div class="hp-fill"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="balloon"></div>
+        <div id="gameOver" class="hidden">YOU MAENO</div>
+        
+        <button id="dangerButton" class="danger-button">
+            <div class="button-content">
+                <div class="warning-symbol">⚠</div>
+                <span>PUSH</span>
+            </div>
+        </button>
+
+        <!-- リトライボタンを追加 -->
+        <button id="retryButton" class="retry-button hidden">
+            <div class="button-content">
+                <span>RETRY</span>
+            </div>
+        </button>
+    </div>
+    
+    <div id="maeno-container"></div>
+
+    <!-- 爆発音用のオーディオ要素 -->
+    <audio id="popSound" src="{{ url_for('static', filename='pop.mp3') }}"></audio>
+
+    <!-- 撃破時の表示を追加 -->
+    <div id="congratulation" class="congratulation hidden">
+        CONGRATULATION
+    </div>
+    <div id="victory-images" class="victory-images hidden">
+        <img src="/static/images/maeno_up.gif" class="victory-maeno">
+        <img src="/static/images/maeno_up.gif" class="victory-maeno">
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html> 

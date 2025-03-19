@@ -1,0 +1,27 @@
+{
+  "projectName": "your-project-name",
+  "settings": {
+    "defaultLanguage": "javascript",
+    "formatOnSave": true,
+    "indentSize": 2,
+    "lineWidth": 100
+  },
+  "search": {
+    "excludePatterns": [
+      "node_modules",
+      "dist",
+      "build",
+      ".git"
+    ],
+    "includePatterns": [
+      "src/**/*",
+      "tests/**/*"
+    ]
+  },
+  "ai": {
+    "provider": "openai",
+    "model": "gpt-4",
+    "temperature": 0.7,
+    "maxTokens": 2000
+  }
+} 
