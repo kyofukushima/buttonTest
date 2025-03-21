@@ -18,7 +18,13 @@ body {
 .container {
     text-align: center;
     position: relative;
-    z-index: 5000;
+    z-index: 3000;
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
 }
 
 #balloon {
@@ -43,6 +49,8 @@ body {
     overflow: hidden;
     box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
     transition: all 0.5s ease, transform 0.3s ease;
+    transform: scale(1);
+    opacity: 1;
 }
 
 .danger-button::before {
@@ -80,26 +88,46 @@ body {
     transform: scale(0.95);
 }
 
-#gameOver {
+#gameOver, .congratulation {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 82px;
-    color: #ff0000;
+    font-size: 72px;
     font-weight: bold;
     text-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
     z-index: 9000;
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transition: all 0.5s ease;
+    pointer-events: none;
 }
 
-#gameOver.visible {
-    opacity: 1;
+#gameOver {
+    color: #ff0000;
 }
 
-.hidden {
+.congratulation {
+    color: #ff0000;
+    font-size: 82px;
+}
+
+#gameOver.hidden, .congratulation.hidden {
     display: none;
+    visibility: hidden;
+}
+
+#gameOver.visible, .congratulation.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* テキストが重ならないようにz-indexを調整 */
+.congratulation {
+    z-index: 9100; /* YOU MAENOより上に表示 */
+}
+
+#gameOver {
+    z-index: 9000;
 }
 
 @keyframes explosion {
@@ -235,10 +263,11 @@ button:hover {
     object-fit: cover;
     transform-origin: center center;
     cursor: pointer;
-    touch-action: manipulation;
+    touch-action: none;
     -webkit-touch-callout: none;
     user-select: none;
     -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 #maeno-container {
@@ -325,39 +354,23 @@ button:hover {
     pointer-events: none;
     width: 30px;
     height: 30px;
-    z-index: 8500;
-    animation: hitEffect 0.3s ease-out forwards;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 50, 50, 0.8) 30%,
+        rgba(255, 50, 50, 0) 70%
+    );
+    animation: hitExpand 0.2s ease-out forwards;
+    z-index: 7600;
 }
 
-.hit-effect::before,
-.hit-effect::after {
-    content: '';
-    position: absolute;
-    background-color: rgba(255, 0, 0, 0.8);
-}
-
-.hit-effect::before {
-    width: 100%;
-    height: 2px;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-}
-
-.hit-effect::after {
-    width: 2px;
-    height: 100%;
-    left: 50%;
-    top: 0;
-    transform: translateX(-50%);
-}
-
-@keyframes hitEffect {
-    0% {
+@keyframes hitExpand {
+    from {
         transform: scale(0.5);
         opacity: 1;
     }
-    100% {
+    to {
         transform: scale(2);
         opacity: 0;
     }
@@ -508,13 +521,13 @@ button:hover {
 }
 
 .hit-effect {
-    z-index: 8500;
+    z-index: 7600;
     pointer-events: none;
 }
 
 .flash {
     z-index: 8900;
-    pointer-events: none;
+    pointer-index: none;
 }
 
 /* リトライボタンのスタイル */
@@ -547,4 +560,228 @@ button:hover {
     color: white;
     font-size: 24px;
     font-weight: bold;
+}
+
+/* タップ時の視覚的フィードバックを追加 */
+.maeno-image:active, .maeno-boss:active {
+    transform: scale(0.95);
+    transition: transform 0.1s;
+}
+
+/* 初期状態での位置調整 */
+.container #balloon {
+    margin-bottom: 30px;
+}
+
+/* ゲーム開始前の状態を明確に */
+.container:not(.game-started) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* レーザービームのスタイルを更新 */
+.laser-beam {
+    position: fixed;
+    pointer-events: none;
+    z-index: 7500;
+}
+
+.laser-core {
+    position: absolute;
+    background: rgb(255, 50, 50);
+    box-shadow: 
+        0 0 5px rgba(255, 50, 50, 0.8),
+        0 0 10px rgba(255, 50, 50, 0.5);
+    transform-origin: left center;
+    animation: laserExtend 0.2s ease-out;
+}
+
+.laser-glow {
+    position: absolute;
+    background: linear-gradient(
+        to right,
+        rgba(255, 50, 50, 0.5),
+        rgba(255, 50, 50, 0.2)
+    );
+    filter: blur(3px);
+    transform-origin: left center;
+    animation: laserExtend 0.2s ease-out;
+}
+
+@keyframes laserExtend {
+    from {
+        transform: scaleX(0);
+        opacity: 0.8;
+    }
+    to {
+        transform: scaleX(1);
+        opacity: 0;
+    }
+}
+
+/* レーザーの遠近効果用のスタイル */
+.laser-perspective {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+/* レーザーの軌跡エフェクト */
+.laser-trail {
+    position: fixed;
+    pointer-events: none;
+    z-index: 7400;
+    width: 2px;
+    background: linear-gradient(to top,
+        rgba(255, 0, 0, 0.2),
+        rgba(255, 0, 0, 0.1),
+        transparent
+    );
+    animation: laserTrailFade 0.3s ease-out forwards;
+}
+
+@keyframes laserTrailFade {
+    0% {
+        height: 100vh;
+        opacity: 0.5;
+    }
+    100% {
+        height: 100vh;
+        opacity: 0;
+    }
+}
+
+/* 警告テキストのスタイル */
+.warning-text {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ff0000;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    opacity: 0;
+    transition: all 0.5s ease;
+    z-index: 9000;
+    text-align: center;
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    border: 2px solid #ff0000;
+}
+
+.warning-text.visible {
+    opacity: 1;
+    animation: warningPulse 2s infinite;
+}
+
+@keyframes warningPulse {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.05); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+.warning-text.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.debug-panel {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 14px;
+    z-index: 9999;
+    border: 1px solid #ff0000;
+}
+
+.debug-panel div {
+    margin: 5px 0;
+}
+
+.debug-panel span {
+    color: #ff0000;
+    font-weight: bold;
+}
+
+/* 照準のスタイル */
+.target-reticle {
+    position: fixed;
+    width: 80px;
+    height: 80px;
+    border: 3px solid #00ffff;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 7400;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+/* 画像のドラッグ防止設定を修正 */
+.balloon-image, .boss-image {
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* 基本の画像サイズ設定 */
+.balloon-image, .boss-image {
+    max-width: 100%;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* レスポンシブ対応 */
+@media screen and (max-width: 768px) {
+    /* タブレットサイズ以下の場合 */
+    .balloon-image {
+        width: 70vw; /* ビューポート幅の70% */
+        max-width: 300px;
+    }
+    
+    .boss-image {
+        width: 60vw; /* ビューポート幅の60% */
+        max-width: 250px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    /* スマートフォンサイズの場合 */
+    .balloon-image {
+        width: 60vw; /* ビューポート幅の60% */
+        max-width: 200px;
+    }
+    
+    .boss-image {
+        width: 50vw; /* ビューポート幅の50% */
+        max-width: 180px;
+    }
+}
+
+/* レーザーエフェクトの調整 */
+@media screen and (max-width: 768px) {
+    .laser-beam {
+        z-index: 7500;
+    }
+    
+    .laser-core {
+        height: 2px; /* スマホ表示時は細めに */
+    }
+    
+    .laser-glow {
+        height: 8px;
+    }
 } 

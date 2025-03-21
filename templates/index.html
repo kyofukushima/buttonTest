@@ -30,13 +30,6 @@
                 <span>PUSH</span>
             </div>
         </button>
-
-        <!-- リトライボタンを追加 -->
-        <button id="retryButton" class="retry-button hidden">
-            <div class="button-content">
-                <span>RETRY</span>
-            </div>
-        </button>
     </div>
     
     <div id="maeno-container"></div>
@@ -49,8 +42,20 @@
         CONGRATULATION
     </div>
     <div id="victory-images" class="victory-images hidden">
-        <img src="/static/images/maeno_up.gif" class="victory-maeno">
-        <img src="/static/images/maeno_up.gif" class="victory-maeno">
+        <img src="/static/images/maeno_up.gif" class="victory-maeno" draggable="false">
+        <img src="/static/images/maeno_up.gif" class="victory-maeno" draggable="false">
+    </div>
+
+    <!-- リトライボタンを追加 -->
+    <button id="retryButton" class="retry-button hidden">
+        <div class="button-content">
+            <span>RETRY</span>
+        </div>
+    </button>
+
+    <!-- 警告テキストを追加 -->
+    <div id="warningText" class="warning-text hidden">
+        これ以上押すと爆発します
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
